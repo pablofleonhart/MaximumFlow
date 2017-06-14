@@ -59,7 +59,10 @@ int main( int argc, char *argv[] )
 
 	HollowHeap heap;
 
+	auto start = std::chrono::high_resolution_clock::now();
 	cout << g.getFlow( s, t, heap ) << endl;
+	auto elapsed = std::chrono::high_resolution_clock::now() - start;
+	cout << std::chrono::duration_cast<std::chrono::milliseconds>( elapsed ).count() << endl;
 
 	return 0;
 }
