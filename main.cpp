@@ -1,3 +1,4 @@
+#include <chrono>
 #include "fordfulkerson.h"
 #include <iostream>
 #include <sstream>
@@ -9,6 +10,10 @@ using namespace std;
 
 int main( int argc, char *argv[] )
 {
+	int who = RUSAGE_SELF; 
+	struct rusage usage; 
+	int ret;
+
     string line = "";
 
     while ( line.substr( 0, 5 ) != "p max" )
@@ -60,9 +65,13 @@ int main( int argc, char *argv[] )
 	HollowHeap heap;
 
 	auto start = std::chrono::high_resolution_clock::now();
-	cout << g.getFlow( s, t, heap ) << endl;
+	cout << g.getFlow( s, t, heap ) << " ";
 	auto elapsed = std::chrono::high_resolution_clock::now() - start;
-	cout << std::chrono::duration_cast<std::chrono::milliseconds>( elapsed ).count() << endl;
+	cout << std::chrono::duration_cast<std::chrono::milliseconds>( elapsed ).count() << " ";
+
+	ret = getrusage( who, &usage );
+
+	cout << usage.ru_maxrss << endl;
 
 	return 0;
 }
